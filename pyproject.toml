@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unione-flask"
+version = "1.1.2"
+description = "UniOne Web API for Flask: API client, webhooks"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "UniOne" }]
+keywords = ["unione", "flask", "email", "webhook"]
+classifiers = ["Framework :: Flask"]
+dependencies = ["unione-sdk>=1.1.2", "Flask>=2.3"]
+
+[project.urls]
+Homepage = "https://github.com/unione-repo/unione-flask"
+Documentation = "https://docs.unione.io/en/web-api-ref"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
