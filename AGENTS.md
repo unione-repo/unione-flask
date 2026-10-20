@@ -11,9 +11,9 @@ UniOne Flask — Flask integration of the UniOne Python SDK (``) for the UniOne 
   python -m pip install -e .
   ```
 
-- **Source label.** Every request carries the query parameter `platform=flask.1.1.2,python-sdk.1.1.2` (this package, then the SDK it is built on).
+- **Source label.** Every request carries the query parameter `platform=flask.1.1.3,python-sdk.1.1.3` (this package, then the SDK it is built on).
 - **Tests.** Before a release the generator installs the package into a test app of Flask and checks the client, the webhook endpoint against a mock of the API: no real API key, no real sends.
-- **Release.** The version (1.1.2 in pyproject.toml) and the tag `v1.1.2` come from the generator; README.md states the Web API version the release was generated from.
+- **Release.** The version (1.1.3 in pyproject.toml) and the tag `v1.1.3` come from the generator; README.md states the Web API version the release was generated from.
 - **Secrets.** Never commit API keys; the examples read `UNIONE_API_KEY` from the environment.
 
 ## Integrating UniOne with this package

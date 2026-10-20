@@ -19,7 +19,7 @@ from . import webhook as notifications
 from ._settings import Settings
 
 __all__ = ["UniOne", "get_client", "webhook_received", "webhook_event_received", "Settings"]
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 
 _signals = Namespace()
 webhook_received = _signals.signal("unione-webhook-received")
@@ -40,7 +40,7 @@ class _State:
     def client(self) -> UniOneClient:
         if self._client is None:
             s = self.settings
-            self._client = UniOneClient(s.require_key(), s.host, s.timeout, platform="flask.1.1.2")
+            self._client = UniOneClient(s.require_key(), s.host, s.timeout, platform="flask.1.1.3")
         return self._client
 
 
