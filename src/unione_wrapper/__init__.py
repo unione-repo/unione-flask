@@ -5,11 +5,13 @@
     get_client().system.ping()
 
 Config keys (default: the environment variables of the same names): UNIONE_API_KEY, UNIONE_HOST, UNIONE_TIMEOUT,
-UNIONE_WEBHOOK_KEY, UNIONE_WEBHOOK_PATH, UNIONE_WEBHOOK_ENABLED (register the webhook route, default True).
+UNIONE_WEBHOOK_KEY, UNIONE_WEBHOOK_PATH, UNIONE_WEBHOOK_ENABLED (register the webhook route, default True; False or
+"false" turns it off).
 """
 from __future__ import annotations
 
-from typing import Optional
+import os
+from typing import Any, Optional
 
 from blinker import Namespace
 from flask import Flask, Response, current_app, request
@@ -19,7 +21,7 @@ from . import webhook as notifications
 from ._settings import Settings
 
 __all__ = ["UniOne", "get_client", "webhook_received", "webhook_event_received", "Settings"]
-__version__ = "1.2.4"
+__version__ = "1.3.0"
 
 _signals = Namespace()
 webhook_received = _signals.signal("unione-webhook-received")
@@ -40,7 +42,7 @@ class _State:
     def client(self) -> UniOneClient:
         if self._client is None:
             s = self.settings
-            self._client = UniOneClient(s.require_key(), s.host, s.timeout, platform="flask.1.2.4")
+            self._client = UniOneClient(s.require_key(), s.host, s.timeout, platform="flask.1.3.0")
         return self._client
 
 
@@ -54,7 +56,7 @@ class UniOne:
     def init_app(self, app: Flask) -> None:
         settings = Settings.load({key: app.config.get("UNIONE_" + key) for key in _KEYS})
         app.extensions[_EXTENSION] = _State(settings)
-        if app.config.get("UNIONE_WEBHOOK_ENABLED", True):
+        if _enabled(app.config.get("UNIONE_WEBHOOK_ENABLED"), os.environ.get("UNIONE_WEBHOOK_ENABLED")):
             app.add_url_rule(settings.webhook_path, endpoint="unione_webhook", view_func=_webhook,
                              methods=["GET", "HEAD", "POST"])
 
@@ -62,6 +64,16 @@ class UniOne:
     def client(self) -> UniOneClient:
         """The client of the current app."""
         return get_client()
+
+
+def _enabled(config: Any, env: Optional[str]) -> bool:
+    """UNIONE_WEBHOOK_ENABLED: app.config wins over the environment variable; "false", "0", "no", "off" turn it off."""
+    value = config if config is not None else env
+    if value is None:
+        return True
+    if isinstance(value, str):
+        return value.strip().lower() not in ("false", "0", "no", "off", "")
+    return bool(value)
 
 
 def _state(app: Optional[Flask] = None) -> _State:

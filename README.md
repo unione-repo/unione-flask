@@ -2,7 +2,7 @@
 
 [![Flask](https://img.shields.io/pypi/v/unione-flask)](https://pypi.org/project/unione-flask/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Flask integration of the [UniOne Python SDK](https://github.com/unione-repo/unione-python-sdk) (``): the API client in the extension (`app.extensions`), a webhook endpoint with signature check.
+Flask integration of the [UniOne Python SDK](https://github.com/unione-repo/unione-python-sdk) (`unione-sdk`): the API client in the extension (`app.extensions`), a webhook endpoint with signature check.
 
 [API reference](https://docs.unione.io/en/web-api-ref) · Docs for LLMs: [llms.txt](https://docs.unione.io/llms.txt)
 
@@ -44,7 +44,7 @@ UniOne(app)
 | `UNIONE_WEBHOOK_KEY` | `UNIONE_WEBHOOK_KEY` |  | API key the webhooks are signed with (the key of the user/project of the webhook), if it differs from the API key. |
 | `UNIONE_WEBHOOK_PATH` | `UNIONE_WEBHOOK_PATH` | `/unione/webhook` | Path of the webhook endpoint. |
 
-`UNIONE_WEBHOOK_ENABLED = False` turns the webhook route off. With Flask-WTF `CSRFProtect` exempt the endpoint: `csrf.exempt("unione_wrapper._webhook")`.
+`UNIONE_WEBHOOK_ENABLED = False` in `app.config` (or the environment variable `UNIONE_WEBHOOK_ENABLED=false`) turns the webhook route off. With Flask-WTF `CSRFProtect` exempt the endpoint: `csrf.exempt("unione_wrapper._webhook")`.
 
 ## Webhooks
 
@@ -102,6 +102,10 @@ def send_email():
     ))
     return {"job_id": response.job_id}
 ```
+
+### Errors
+
+The API client raises the SDK `ApiError`: `kind` tells what failed (api, network, timeout, invalid_response, invalid_request), `retryable` whether a repeat may succeed (network, timeout, HTTP 429 and 5xx), `hint` how to fix an API error and `api_message` the message of the API.
 
 ## No domain yet: the test sandbox domain
 
