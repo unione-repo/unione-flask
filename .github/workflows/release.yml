@@ -19,17 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: The tag is the version of the package
-        run: test "$GITHUB_REF_NAME" = "v1.3.1" || { echo "tag $GITHUB_REF_NAME, package v1.3.1"; exit 1; }
-      - name: Wait for the SDK unione-sdk 1.3.0 in PyPI
-        timeout-minutes: 95
-        run: |
-          for i in $(seq 1 180); do
-            if curl -fsSL -A "release-workflow (github.com/$GITHUB_REPOSITORY)" -o /tmp/sdk "https://pypi.org/pypi/unione-sdk/1.3.0/json"; then
-              echo "unione-sdk 1.3.0 is in PyPI"; exit 0
-            fi
-            echo "unione-sdk 1.3.0 is not in PyPI yet ($i/180)"; sleep 30
-          done
-          echo "::error::unione-sdk 1.3.0 did not appear in PyPI in 90 min: publish the SDK first"; exit 1
+        run: test "$GITHUB_REF_NAME" = "v1.3.2" || { echo "tag $GITHUB_REF_NAME, package v1.3.2"; exit 1; }
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "unione-flask"
-version = "1.3.1"
+version = "1.3.2"
 description = "UniOne Web API for Flask: API client, webhooks"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -12,7 +12,7 @@ license = { text = "MIT" }
 authors = [{ name = "UniOne" }]
 keywords = ["unione", "flask", "email", "webhook"]
 classifiers = ["Framework :: Flask"]
-dependencies = ["unione-sdk==1.3.0", "Flask>=2.3"]
+dependencies = ["unione-sdk==1.3.1", "Flask>=2.3"]
 
 [project.optional-dependencies]
 test = []
