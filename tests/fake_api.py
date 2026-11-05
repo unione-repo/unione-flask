@@ -19,7 +19,7 @@ BASE_URL = "http://127.0.0.1:9/api/v1"
 BASE_PATH = "/api/v1"
 KEY_HEADER = "X-API-KEY"
 SEND_PATH = "/email/send.json"
-PLATFORM = "flask.1.3.0," + SDK_PLATFORM
+PLATFORM = "flask.1.3.1," + SDK_PLATFORM
 """The "platform" query parameter of the requests of the wrapper."""
 WEBHOOK_PATH = "/unione/webhook"
 SAMPLE = json.dumps({
